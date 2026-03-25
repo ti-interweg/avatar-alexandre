@@ -100,9 +100,9 @@
 
     /* AVATARS GRID */
     .avatars-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
     }
     .avatar-card {
       background: var(--card);
@@ -112,7 +112,14 @@
       position: relative;
       overflow: hidden;
       transition: transform .25s, border-color .25s;
+      display: flex;
+      flex-direction: row;
+      gap: 28px;
+      align-items: flex-start;
     }
+    .card-video { flex: 1.7; min-width: 0; }
+    .card-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+    @media(max-width:700px){ .avatar-card { flex-direction: column; } .card-video,.card-info { flex: unset; width: 100%; } }
     .avatar-card:hover { transform: translateY(-4px); border-color: rgba(108,99,255,.4); }
     .avatar-card::before {
       content: '';
@@ -347,7 +354,7 @@
     </div>
     <div class="video-wrap" style="margin-bottom:0;width:100%;">
       <video controls preload="metadata" style="width:100%;border-radius:12px;">
-        <source src="video_heygen_avatar.mp4" type="video/mp4">
+        <source src="video_valeria.mp4" type="video/mp4">
       </video>
     </div>
   </div>
@@ -365,149 +372,152 @@
 
     <!-- Deevid -->
     <div class="avatar-card card-1">
-      <div class="avatar-platform platform-1">
-        <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor"><circle cx="5" cy="5" r="5"/></svg>
-        Deevid AI
-      </div>
-      <div class="avatar-name">Mucida_CEO_IA_25_03</div>
-      <div class="avatar-desc">Criado na plataforma Deevid AI</div>
-
-      <div class="video-wrap">
-        <video controls preload="metadata">
-          <source src="video_deevid.mp4" type="video/mp4">
-        </video>
-      </div>
-
-      <div class="como-criei">
-        <div class="como-criei-label">Como criei</div>
-        <p>Enviei uma <strong>foto e um vídeo curto</strong> de referência. A plataforma gerou o avatar automaticamente em poucos minutos, sem precisar de conta paga.</p>
-      </div>
-
-      <div class="stars">
-        <span class="filled"></span><span class="filled"></span><span class="filled"></span>
-        <span class="half"></span><span class="empty"></span>
-      </div>
-      <div class="rating-block">
-        <div class="rating-row">
-          <span class="rating-label">Naturalidade</span>
-          <div class="rating-bar-bg"><div class="rating-bar" style="width:68%;background:linear-gradient(90deg,#6c63ff,#a855f7)"></div></div>
-        </div>
-        <div class="rating-row">
-          <span class="rating-label">Sincronia dos lábios</span>
-          <div class="rating-bar-bg"><div class="rating-bar" style="width:60%;background:linear-gradient(90deg,#6c63ff,#a855f7)"></div></div>
-        </div>
-        <div class="rating-row">
-          <span class="rating-label">Qualidade</span>
-          <div class="rating-bar-bg"><div class="rating-bar" style="width:65%;background:linear-gradient(90deg,#6c63ff,#a855f7)"></div></div>
+      <div class="card-video">
+        <div class="video-wrap" style="margin-bottom:0;">
+          <video controls preload="metadata" style="width:100%;border-radius:12px;">
+            <source src="video_deevid.mp4" type="video/mp4">
+          </video>
         </div>
       </div>
-      <div class="badge-row mt-16">
-        <span class="badge">Acesso gratuito</span>
-        <span class="badge good">Rápido de criar</span>
-        <span class="badge">Estúdio limitado</span>
+      <div class="card-info">
+        <div class="avatar-platform platform-1">
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor"><circle cx="5" cy="5" r="5"/></svg>
+          Deevid AI
+        </div>
+        <div class="avatar-name">Mucida_CEO_IA_25_03</div>
+        <div class="avatar-desc">Criado na plataforma Deevid AI</div>
+        <div class="como-criei">
+          <div class="como-criei-label">Como criei</div>
+          <p>Enviei uma <strong>foto e um vídeo curto</strong> de referência. A plataforma gerou o avatar automaticamente em poucos minutos, sem precisar de conta paga.</p>
+        </div>
+        <div class="stars">
+          <span class="filled"></span><span class="filled"></span><span class="filled"></span>
+          <span class="half"></span><span class="empty"></span>
+        </div>
+        <div class="rating-block">
+          <div class="rating-row">
+            <span class="rating-label">Naturalidade</span>
+            <div class="rating-bar-bg"><div class="rating-bar" style="width:68%;background:linear-gradient(90deg,#6c63ff,#a855f7)"></div></div>
+          </div>
+          <div class="rating-row">
+            <span class="rating-label">Sincronia dos lábios</span>
+            <div class="rating-bar-bg"><div class="rating-bar" style="width:60%;background:linear-gradient(90deg,#6c63ff,#a855f7)"></div></div>
+          </div>
+          <div class="rating-row">
+            <span class="rating-label">Qualidade</span>
+            <div class="rating-bar-bg"><div class="rating-bar" style="width:65%;background:linear-gradient(90deg,#6c63ff,#a855f7)"></div></div>
+          </div>
+        </div>
+        <div class="badge-row">
+          <span class="badge">Acesso gratuito</span>
+          <span class="badge good">Rápido de criar</span>
+          <span class="badge">Estúdio limitado</span>
+        </div>
       </div>
     </div>
 
     <!-- Veed -->
     <div class="avatar-card card-2">
-      <div class="avatar-platform platform-2">
-        <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor"><rect width="10" height="10" rx="2"/></svg>
-        Veed IO
-      </div>
-      <div class="avatar-name">Mucida_CEO_IA_veed_25_03</div>
-      <div class="avatar-desc">Criado na plataforma Veed.io</div>
-
-      <div class="video-wrap">
-        <video controls preload="metadata">
-          <source src="video_veed.mp4" type="video/mp4">
-        </video>
-      </div>
-
-      <div class="como-criei">
-        <div class="como-criei-label">Como criei</div>
-        <p>Fiz upload de um <strong>vídeo curto</strong>, escolhi a aparência e editei o texto direto na plataforma. O editor integrado facilita montar o vídeo final sem precisar de outro programa.</p>
-      </div>
-
-      <div class="stars">
-        <span class="filled"></span><span class="filled"></span><span class="filled"></span>
-        <span class="filled"></span><span class="empty"></span>
-      </div>
-      <div class="rating-block">
-        <div class="rating-row">
-          <span class="rating-label">Naturalidade</span>
-          <div class="rating-bar-bg"><div class="rating-bar" style="width:78%;background:linear-gradient(90deg,#00d4aa,#0ea5e9)"></div></div>
-        </div>
-        <div class="rating-row">
-          <span class="rating-label">Sincronia dos lábios</span>
-          <div class="rating-bar-bg"><div class="rating-bar" style="width:80%;background:linear-gradient(90deg,#00d4aa,#0ea5e9)"></div></div>
-        </div>
-        <div class="rating-row">
-          <span class="rating-label">Qualidade</span>
-          <div class="rating-bar-bg"><div class="rating-bar" style="width:76%;background:linear-gradient(90deg,#00d4aa,#0ea5e9)"></div></div>
+      <div class="card-video">
+        <div class="video-wrap" style="margin-bottom:0;">
+          <video controls preload="metadata" style="width:100%;border-radius:12px;">
+            <source src="video_veed.mp4" type="video/mp4">
+          </video>
         </div>
       </div>
-      <div class="badge-row mt-16">
-        <span class="badge good">Editor integrado</span>
-        <span class="badge good">Suporte a idiomas</span>
-        <span class="badge">Plano pago</span>
+      <div class="card-info">
+        <div class="avatar-platform platform-2">
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor"><rect width="10" height="10" rx="2"/></svg>
+          Veed IO
+        </div>
+        <div class="avatar-name">Mucida_CEO_IA_veed_25_03</div>
+        <div class="avatar-desc">Criado na plataforma Veed.io</div>
+        <div class="como-criei">
+          <div class="como-criei-label">Como criei</div>
+          <p>Fiz upload de um <strong>vídeo curto</strong>, escolhi a aparência e editei o texto direto na plataforma. O editor integrado facilita montar o vídeo final sem precisar de outro programa.</p>
+        </div>
+        <div class="stars">
+          <span class="filled"></span><span class="filled"></span><span class="filled"></span>
+          <span class="filled"></span><span class="empty"></span>
+        </div>
+        <div class="rating-block">
+          <div class="rating-row">
+            <span class="rating-label">Naturalidade</span>
+            <div class="rating-bar-bg"><div class="rating-bar" style="width:78%;background:linear-gradient(90deg,#00d4aa,#0ea5e9)"></div></div>
+          </div>
+          <div class="rating-row">
+            <span class="rating-label">Sincronia dos lábios</span>
+            <div class="rating-bar-bg"><div class="rating-bar" style="width:80%;background:linear-gradient(90deg,#00d4aa,#0ea5e9)"></div></div>
+          </div>
+          <div class="rating-row">
+            <span class="rating-label">Qualidade</span>
+            <div class="rating-bar-bg"><div class="rating-bar" style="width:76%;background:linear-gradient(90deg,#00d4aa,#0ea5e9)"></div></div>
+          </div>
+        </div>
+        <div class="badge-row">
+          <span class="badge good">Editor integrado</span>
+          <span class="badge good">Suporte a idiomas</span>
+          <span class="badge">Plano pago</span>
+        </div>
       </div>
     </div>
 
     <!-- HeyGen -->
     <div class="avatar-card card-3">
-      <div class="avatar-platform platform-3">
-        <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor"><polygon points="5,0 10,10 0,10"/></svg>
-        HeyGen
-      </div>
-      <div class="avatar-name">CEO Alexandre · Interweg</div>
-      <div class="avatar-desc">Criado na plataforma HeyGen</div>
-
-      <div class="video-group">
-        <div>
-          <div class="video-label">Versão com avatar</div>
-          <div class="video-wrap" style="margin-bottom:0">
-            <video controls preload="metadata">
-              <source src="video_heygen_avatar.mp4" type="video/mp4">
-            </video>
+      <div class="card-video">
+        <div class="video-group" style="margin-bottom:0;">
+          <div>
+            <div class="video-label">Versão com avatar</div>
+            <div class="video-wrap" style="margin-bottom:0">
+              <video controls preload="metadata" style="width:100%;border-radius:12px;">
+                <source src="video_heygen_avatar.mp4" type="video/mp4">
+              </video>
+            </div>
           </div>
-        </div>
-        <div>
-          <div class="video-label">Versão apenas narrador</div>
-          <div class="video-wrap" style="margin-bottom:0">
-            <video controls preload="metadata">
-              <source src="video_heygen_narrador.mp4" type="video/mp4">
-            </video>
+          <div>
+            <div class="video-label">Versão apenas narrador</div>
+            <div class="video-wrap" style="margin-bottom:0">
+              <video controls preload="metadata" style="width:100%;border-radius:12px;">
+                <source src="video_heygen_narrador.mp4" type="video/mp4">
+              </video>
+            </div>
           </div>
         </div>
       </div>
-
-      <div class="como-criei">
-        <div class="como-criei-label">Como criei</div>
-        <p>Gravei um <strong>vídeo de referência com boa iluminação</strong>. A plataforma treinou o avatar com base nas expressões e movimentos. O resultado é o mais fiel dos três.</p>
-      </div>
-
-      <div class="stars">
-        <span class="filled"></span><span class="filled"></span><span class="filled"></span>
-        <span class="filled"></span><span class="filled"></span>
-      </div>
-      <div class="rating-block">
-        <div class="rating-row">
-          <span class="rating-label">Naturalidade</span>
-          <div class="rating-bar-bg"><div class="rating-bar" style="width:94%;background:linear-gradient(90deg,#ff6b6b,#f59e0b)"></div></div>
+      <div class="card-info">
+        <div class="avatar-platform platform-3">
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor"><polygon points="5,0 10,10 0,10"/></svg>
+          HeyGen
         </div>
-        <div class="rating-row">
-          <span class="rating-label">Sincronia dos lábios</span>
-          <div class="rating-bar-bg"><div class="rating-bar" style="width:96%;background:linear-gradient(90deg,#ff6b6b,#f59e0b)"></div></div>
+        <div class="avatar-name">CEO Alexandre · Interweg</div>
+        <div class="avatar-desc">Criado na plataforma HeyGen</div>
+        <div class="como-criei">
+          <div class="como-criei-label">Como criei</div>
+          <p>Gravei um <strong>vídeo de referência com boa iluminação</strong>. A plataforma treinou o avatar com base nas expressões e movimentos. O resultado é o mais fiel dos três.</p>
         </div>
-        <div class="rating-row">
-          <span class="rating-label">Qualidade</span>
-          <div class="rating-bar-bg"><div class="rating-bar" style="width:95%;background:linear-gradient(90deg,#ff6b6b,#f59e0b)"></div></div>
+        <div class="stars">
+          <span class="filled"></span><span class="filled"></span><span class="filled"></span>
+          <span class="filled"></span><span class="filled"></span>
         </div>
-      </div>
-      <div class="badge-row mt-16">
-        <span class="badge best">Melhor sincronia</span>
-        <span class="badge best">Ultra realista</span>
-        <span class="badge best">Tradução perfeita</span>
+        <div class="rating-block">
+          <div class="rating-row">
+            <span class="rating-label">Naturalidade</span>
+            <div class="rating-bar-bg"><div class="rating-bar" style="width:94%;background:linear-gradient(90deg,#ff6b6b,#f59e0b)"></div></div>
+          </div>
+          <div class="rating-row">
+            <span class="rating-label">Sincronia dos lábios</span>
+            <div class="rating-bar-bg"><div class="rating-bar" style="width:96%;background:linear-gradient(90deg,#ff6b6b,#f59e0b)"></div></div>
+          </div>
+          <div class="rating-row">
+            <span class="rating-label">Qualidade</span>
+            <div class="rating-bar-bg"><div class="rating-bar" style="width:95%;background:linear-gradient(90deg,#ff6b6b,#f59e0b)"></div></div>
+          </div>
+        </div>
+        <div class="badge-row">
+          <span class="badge best">Melhor sincronia</span>
+          <span class="badge best">Ultra realista</span>
+          <span class="badge best">Tradução perfeita</span>
+        </div>
       </div>
     </div>
 
