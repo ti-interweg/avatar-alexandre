@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Avatar IA · Alexandre · Interweg</title>
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #13131a;
+      --border: #1e1e2e;
+      --border2: #252535;
+      --accent: #6c63ff;
+      --accent2: #00d4aa;
+      --accent3: #ff6b6b;
+      --text: #e8e8f0;
+      --muted: #6b6b80;
+      --card: #16161f;
+      --card-inner: #1c1c28;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* HERO */
+    .hero {
+      min-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 60px 24px;
+      background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(108,99,255,0.18) 0%, transparent 70%);
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(108,99,255,0.15);
+      border: 1px solid rgba(108,99,255,0.35);
+      border-radius: 100px;
+      padding: 6px 18px;
+      font-size: 13px;
+      color: #a09fff;
+      margin-bottom: 28px;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+    }
+    .hero-badge span { width: 7px; height: 7px; background: var(--accent); border-radius: 50%; display: inline-block; animation: pulse 1.8s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(1.5)} }
+    h1 {
+      font-size: clamp(2.2rem, 6vw, 4rem);
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      line-height: 1.12;
+      margin-bottom: 20px;
+    }
+    h1 em { font-style: normal; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero-sub { font-size: clamp(1rem, 2.5vw, 1.2rem); color: var(--muted); max-width: 560px; margin-bottom: 48px; }
+    .scroll-hint { font-size: 13px; color: var(--muted); display: flex; flex-direction: column; align-items: center; gap: 8px; animation: bounce 2s infinite; }
+    @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
+
+    /* SECTIONS */
+    section { padding: 72px 24px; max-width: 1100px; margin: 0 auto; }
+    .section-label { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+    h2 { font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 800; letter-spacing: -0.5px; margin-bottom: 10px; }
+    .section-desc { color: var(--muted); font-size: 1rem; max-width: 580px; margin-bottom: 44px; }
+    .divider { width: 100%; max-width: 1100px; height: 1px; background: var(--border); margin: 0 auto; }
+
+    /* APRESENTAÇÃO PESSOAL */
+    .intro-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 36px 40px;
+      display: flex;
+      gap: 28px;
+      align-items: flex-start;
+      box-shadow: 0 2px 24px rgba(108,99,255,.07);
+    }
+    @media(max-width:600px){ .intro-card { flex-direction: column; padding: 28px; } }
+    .intro-avatar {
+      width: 64px; height: 64px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #a855f7);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; font-weight: 800; flex-shrink: 0;
+      color: #fff; letter-spacing: -0.5px;
+      box-shadow: 0 4px 20px rgba(108,99,255,.25);
+    }
+    .intro-body h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 6px; }
+    .intro-body p { color: var(--muted); font-size: .95rem; line-height: 1.7; }
+    .intro-body p strong { color: var(--text); }
+
+    /* AVATARS GRID */
+    .avatars-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 22px;
+    }
+    .avatar-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+      transition: transform .25s, border-color .25s;
+    }
+    .avatar-card:hover { transform: translateY(-4px); border-color: rgba(108,99,255,.4); }
+    .avatar-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      border-radius: 22px 22px 0 0;
+    }
+    .avatar-card.card-1::before { background: linear-gradient(90deg, #6c63ff, #a855f7); }
+    .avatar-card.card-2::before { background: linear-gradient(90deg, #00d4aa, #0ea5e9); }
+    .avatar-card.card-3::before { background: linear-gradient(90deg, #ff6b6b, #f59e0b); }
+
+    /* VIDEO */
+    .video-wrap {
+      border-radius: 12px;
+      overflow: hidden;
+      background: #000;
+      margin-bottom: 20px;
+      position: relative;
+    }
+    .video-wrap video {
+      width: 100%;
+      display: block;
+      border-radius: 12px;
+    }
+    .video-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .video-group { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+
+    .avatar-platform {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 100px;
+      margin-bottom: 16px;
+    }
+    .platform-1 { background: rgba(108,99,255,.15); color: #a09fff; }
+    .platform-2 { background: rgba(0,212,170,.12); color: #00d4aa; }
+    .platform-3 { background: rgba(255,107,107,.12); color: #ff8f8f; }
+
+    .avatar-name { font-size: 1.1rem; font-weight: 700; margin-bottom: 4px; }
+    .avatar-desc { color: var(--muted); font-size: .88rem; margin-bottom: 18px; }
+
+    /* COMO CRIEI */
+    .como-criei {
+      background: var(--card-inner);
+      border: 1px solid var(--border2);
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 18px;
+    }
+    .como-criei-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+    .como-criei p { font-size: .85rem; color: var(--muted); line-height: 1.55; }
+    .como-criei p strong { color: var(--text); }
+
+    .stars { display: flex; gap: 4px; margin-bottom: 14px; }
+    .stars span { width: 14px; height: 14px; border-radius: 3px; }
+    .stars .filled { background: #f59e0b; }
+    .stars .half { background: linear-gradient(90deg, #f59e0b 50%, #2a2a3a 50%); }
+    .stars .empty { background: #2a2a3a; }
+
+    .badge-row { display: flex; flex-wrap: wrap; gap: 7px; }
+    .badge { font-size: 11px; padding: 4px 10px; border-radius: 8px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08); color: var(--muted); }
+    .badge.good { background: rgba(0,212,170,.08); border-color: rgba(0,212,170,.2); color: var(--accent2); }
+    .badge.best { background: rgba(245,158,11,.08); border-color: rgba(245,158,11,.25); color: #fbbf24; }
+
+    /* RATING */
+    .rating-block { margin-top: 14px; }
+    .rating-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-size: .84rem; }
+    .rating-label { width: 140px; color: var(--muted); flex-shrink: 0; }
+    .rating-bar-bg { flex: 1; height: 6px; background: #1e1e2e; border-radius: 10px; overflow: hidden; }
+    .rating-bar { height: 100%; border-radius: 10px; }
+
+    /* WINNER */
+    .winner-banner {
+      margin-top: 32px;
+      background: linear-gradient(135deg, rgba(108,99,255,.12), rgba(0,212,170,.08));
+      border: 1px solid rgba(108,99,255,.3);
+      border-radius: 18px;
+      padding: 24px 28px;
+      display: flex; align-items: center; gap: 18px;
+    }
+    .winner-icon { font-size: 1.5rem; flex-shrink: 0; font-weight: 800; color: #fbbf24; }
+    .winner-text h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 4px; }
+    .winner-text p { color: var(--muted); font-size: .9rem; }
+
+    /* STRATEGY */
+    .strategy-box {
+      background: linear-gradient(135deg, rgba(108,99,255,.1), rgba(0,212,170,.06));
+      border: 1px solid rgba(108,99,255,.25);
+      border-radius: 22px;
+      padding: 36px;
+      margin-bottom: 44px;
+    }
+    .strategy-box h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 20px; }
+    .strategy-items { display: flex; flex-direction: column; gap: 14px; }
+    .strategy-item {
+      display: flex; gap: 16px; align-items: flex-start;
+      background: rgba(0,0,0,.2); border-radius: 14px; padding: 18px;
+    }
+    .strategy-num {
+      width: 32px; height: 32px; border-radius: 8px;
+      background: rgba(108,99,255,.2); border: 1px solid rgba(108,99,255,.3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .85rem; font-weight: 800; color: #a09fff; flex-shrink: 0;
+    }
+    .strategy-item h4 { font-weight: 700; margin-bottom: 4px; font-size: .98rem; }
+    .strategy-item p { color: var(--muted); font-size: .88rem; }
+
+    /* USE CASES */
+    .usecases { display: flex; flex-direction: column; gap: 28px; }
+    .usecase {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 32px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      transition: border-color .25s;
+    }
+    .usecase:hover { border-color: rgba(108,99,255,.3); }
+    @media(max-width:640px){ .usecase { grid-template-columns: 1fr; } }
+    .usecase-header { grid-column: 1 / -1; }
+    .usecase-number { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+    .usecase h3 { font-size: 1.35rem; font-weight: 800; margin-bottom: 8px; }
+    .usecase-sub { color: var(--muted); font-size: .93rem; }
+    .usecase-benefits { display: flex; flex-direction: column; gap: 10px; }
+    .benefit {
+      display: flex; gap: 12px; align-items: flex-start;
+      padding: 13px; background: rgba(0,0,0,.2);
+      border-radius: 12px;
+    }
+    .benefit-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
+    .dot-purple { background: var(--accent); }
+    .dot-green { background: var(--accent2); }
+    .benefit p { font-size: .88rem; color: #c8c8d8; }
+    .benefit p strong { color: var(--text); }
+
+    .highlight-box {
+      background: rgba(108,99,255,.07);
+      border: 1px solid rgba(108,99,255,.2);
+      border-radius: 14px;
+      padding: 16px 18px;
+      font-size: .88rem;
+      color: #b0b0c8;
+    }
+    .highlight-box strong { color: var(--accent2); display: block; margin-bottom: 5px; font-size: .93rem; }
+
+    /* LANGUAGES */
+    .lang-flags { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+    .lang-pill {
+      display: flex; align-items: center; gap: 8px;
+      background: rgba(0,212,170,.08); border: 1px solid rgba(0,212,170,.2);
+      border-radius: 100px; padding: 7px 15px;
+      font-size: .88rem; font-weight: 600; color: var(--accent2);
+    }
+    .lang-flag { font-size: 1.1rem; }
+
+    /* BRAND GRID */
+    .brand-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+    .brand-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 18px; padding: 24px; text-align: center;
+      transition: transform .25s, border-color .25s;
+    }
+    .brand-card:hover { transform: translateY(-3px); border-color: rgba(108,99,255,.35); }
+    .brand-card-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: rgba(108,99,255,.15); margin: 0 auto 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .75rem; font-weight: 800; color: #a09fff; letter-spacing: -.5px;
+    }
+    .brand-card h4 { font-size: .93rem; font-weight: 700; margin-bottom: 6px; }
+    .brand-card p { font-size: .83rem; color: var(--muted); }
+
+    /* FOOTER */
+    footer { text-align: center; padding: 32px 24px; color: var(--muted); font-size: .85rem; border-top: 1px solid var(--border); }
+
+    /* UTILS */
+    .mt-8 { margin-top: 8px; }
+    .mt-16 { margin-top: 16px; }
+    .text-muted { color: var(--muted); }
+
+    /* SCROLL ANIM */
+    .fade-up { opacity: 0; transform: translateY(22px); transition: opacity .55s, transform .55s; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">
+    <span></span>
+    Avatar IA · Projeto Alexandre
+  </div>
+  <h1>O <em>CEO da Interweg</em><br>em formato digital</h1>
+  <p class="hero-sub">
+    Três avatares criados em plataformas diferentes. Um comparativo real de qualidade e uma estratégia para escalar comunicação, treinamento e vendas.
+  </p>
+  <div class="scroll-hint">
+    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+    role abaixo
+  </div>
+</div>
+
+<!-- APRESENTAÇÃO -->
+<div class="divider"></div>
+<section class="fade-up">
+  <div class="section-label">Quem preparou isso</div>
+  <div class="intro-card">
+    <div class="intro-avatar">VM</div>
+    <div class="intro-body">
+      <h3>Oi Alexandre, sou a Valeria!</h3>
+      <p>
+        Fiz testes com <strong>avatar IA</strong> usando sua imagem em três plataformas diferentes para você ver na prática como funciona essa tecnologia.
+        Cada plataforma tem um nível de qualidade e recursos distintos. Preparei esse comparativo para mostrar o potencial e o que podemos fazer com isso na <strong>Interweg</strong>.
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- AVATARES -->
+<section id="avatares" class="fade-up">
+  <div class="section-label">Comparativo de Plataformas</div>
+  <h2>3 avatares, 3 plataformas</h2>
+  <p class="section-desc">Criei o mesmo avatar em plataformas distintas para avaliar qualidade de imagem, naturalidade e recursos disponíveis.</p>
+
+  <div class="avatars-grid">
+
+    <!-- Deevid -->
+    <div class="avatar-card card-1">
+      <div class="avatar-platform platform-1">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor"><circle cx="5" cy="5" r="5"/></svg>
+        Deevid AI
+      </div>
+      <div class="avatar-name">Mucida_CEO_IA_25_03</div>
+      <div class="avatar-desc">Criado na plataforma Deevid AI</div>
+
+      <div class="video-wrap">
+        <video controls preload="metadata">
+          <source src="video_deevid.mp4" type="video/mp4">
+        </video>
+      </div>
+
+      <div class="como-criei">
+        <div class="como-criei-label">Como criei</div>
+        <p>Enviei uma <strong>foto e um vídeo curto</strong> de referência. A plataforma gerou o avatar automaticamente em poucos minutos, sem precisar de conta paga.</p>
+      </div>
+
+      <div class="stars">
+        <span class="filled"></span><span class="filled"></span><span class="filled"></span>
+        <span class="half"></span><span class="empty"></span>
+      </div>
+      <div class="rating-block">
+        <div class="rating-row">
+          <span class="rating-label">Naturalidade</span>
+          <div class="rating-bar-bg"><div class="rating-bar" style="width:68%;background:linear-gradient(90deg,#6c63ff,#a855f7)"></div></div>
+        </div>
+        <div class="rating-row">
+          <span class="rating-label">Sincronia dos lábios</span>
+          <div class="rating-bar-bg"><div class="rating-bar" style="width:60%;background:linear-gradient(90deg,#6c63ff,#a855f7)"></div></div>
+        </div>
+        <div class="rating-row">
+          <span class="rating-label">Qualidade</span>
+          <div class="rating-bar-bg"><div class="rating-bar" style="width:65%;background:linear-gradient(90deg,#6c63ff,#a855f7)"></div></div>
+        </div>
+      </div>
+      <div class="badge-row mt-16">
+        <span class="badge">Acesso gratuito</span>
+        <span class="badge good">Rápido de criar</span>
+        <span class="badge">Estúdio limitado</span>
+      </div>
+    </div>
+
+    <!-- Veed -->
+    <div class="avatar-card card-2">
+      <div class="avatar-platform platform-2">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor"><rect width="10" height="10" rx="2"/></svg>
+        Veed IO
+      </div>
+      <div class="avatar-name">Mucida_CEO_IA_veed_25_03</div>
+      <div class="avatar-desc">Criado na plataforma Veed.io</div>
+
+      <div class="video-wrap">
+        <video controls preload="metadata">
+          <source src="video_veed.mp4" type="video/mp4">
+        </video>
+      </div>
+
+      <div class="como-criei">
+        <div class="como-criei-label">Como criei</div>
+        <p>Fiz upload de um <strong>vídeo curto</strong>, escolhi a aparência e editei o texto direto na plataforma. O editor integrado facilita montar o vídeo final sem precisar de outro programa.</p>
+      </div>
+
+      <div class="stars">
+        <span class="filled"></span><span class="filled"></span><span class="filled"></span>
+        <span class="filled"></span><span class="empty"></span>
+      </div>
+      <div class="rating-block">
+        <div class="rating-row">
+          <span class="rating-label">Naturalidade</span>
+          <div class="rating-bar-bg"><div class="rating-bar" style="width:78%;background:linear-gradient(90deg,#00d4aa,#0ea5e9)"></div></div>
+        </div>
+        <div class="rating-row">
+          <span class="rating-label">Sincronia dos lábios</span>
+          <div class="rating-bar-bg"><div class="rating-bar" style="width:80%;background:linear-gradient(90deg,#00d4aa,#0ea5e9)"></div></div>
+        </div>
+        <div class="rating-row">
+          <span class="rating-label">Qualidade</span>
+          <div class="rating-bar-bg"><div class="rating-bar" style="width:76%;background:linear-gradient(90deg,#00d4aa,#0ea5e9)"></div></div>
+        </div>
+      </div>
+      <div class="badge-row mt-16">
+        <span class="badge good">Editor integrado</span>
+        <span class="badge good">Suporte a idiomas</span>
+        <span class="badge">Plano pago</span>
+      </div>
+    </div>
+
+    <!-- HeyGen -->
+    <div class="avatar-card card-3">
+      <div class="avatar-platform platform-3">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor"><polygon points="5,0 10,10 0,10"/></svg>
+        HeyGen
+      </div>
+      <div class="avatar-name">CEO Alexandre · Interweg</div>
+      <div class="avatar-desc">Criado na plataforma HeyGen</div>
+
+      <div class="video-group">
+        <div>
+          <div class="video-label">Versão com avatar</div>
+          <div class="video-wrap" style="margin-bottom:0">
+            <video controls preload="metadata">
+              <source src="video_heygen_avatar.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+        <div>
+          <div class="video-label">Versão apenas narrador</div>
+          <div class="video-wrap" style="margin-bottom:0">
+            <video controls preload="metadata">
+              <source src="video_heygen_narrador.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <div class="como-criei">
+        <div class="como-criei-label">Como criei</div>
+        <p>Gravei um <strong>vídeo de referência com boa iluminação</strong>. A plataforma treinou o avatar com base nas expressões e movimentos. O resultado é o mais fiel dos três.</p>
+      </div>
+
+      <div class="stars">
+        <span class="filled"></span><span class="filled"></span><span class="filled"></span>
+        <span class="filled"></span><span class="filled"></span>
+      </div>
+      <div class="rating-block">
+        <div class="rating-row">
+          <span class="rating-label">Naturalidade</span>
+          <div class="rating-bar-bg"><div class="rating-bar" style="width:94%;background:linear-gradient(90deg,#ff6b6b,#f59e0b)"></div></div>
+        </div>
+        <div class="rating-row">
+          <span class="rating-label">Sincronia dos lábios</span>
+          <div class="rating-bar-bg"><div class="rating-bar" style="width:96%;background:linear-gradient(90deg,#ff6b6b,#f59e0b)"></div></div>
+        </div>
+        <div class="rating-row">
+          <span class="rating-label">Qualidade</span>
+          <div class="rating-bar-bg"><div class="rating-bar" style="width:95%;background:linear-gradient(90deg,#ff6b6b,#f59e0b)"></div></div>
+        </div>
+      </div>
+      <div class="badge-row mt-16">
+        <span class="badge best">Melhor sincronia</span>
+        <span class="badge best">Ultra realista</span>
+        <span class="badge best">Tradução perfeita</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="winner-banner mt-16">
+    <div class="winner-icon">N.1</div>
+    <div class="winner-text">
+      <h3>HeyGen lidera em qualidade</h3>
+      <p>Melhor sincronia de boca com o áudio, maior realismo e suporte a vários idiomas. É a plataforma mais indicada para uso profissional.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ESTRATÉGIA -->
+<section id="estrategia" class="fade-up">
+  <div class="section-label">Próximo Passo</div>
+  <h2>O que faz o avatar <em style="background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent">decolar</em></h2>
+  <p class="section-desc">Para atingir o máximo de realismo, dois ingredientes são essenciais antes de escalar.</p>
+
+  <div class="strategy-box">
+    <h3>Ingredientes para um avatar de alto impacto</h3>
+    <div class="strategy-items">
+      <div class="strategy-item">
+        <div class="strategy-num">01</div>
+        <div>
+          <h4>Gravação de vídeo de qualidade</h4>
+          <p>Quanto mais material de vídeo real do Alexandre, mais fiel o avatar fica. A IA aprende os gestos, expressões e a forma de falar tornando o clone muito mais convincente e natural.</p>
+        </div>
+      </div>
+      <div class="strategy-item">
+        <div class="strategy-num">02</div>
+        <div>
+          <h4>Audio longo para clonagem de voz</h4>
+          <p>Um audio com pelo menos 10 a 30 minutos permite à IA capturar a entonação, pausas e personalidade da voz. O resultado é uma voz clonada que soa como a original e não como um robô.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="highlight-box">
+    <strong>Por que isso importa?</strong>
+    Sem vídeo e audio de qualidade, o avatar parece genérico. Com eles, o avatar parece o próprio Alexandre. É a diferença entre "parece IA" e "isso é ele mesmo".
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- USOS -->
+<section id="usos" class="fade-up">
+  <div class="section-label">Para a Empresa</div>
+  <h2>Onde o avatar gera <em style="background:linear-gradient(135deg,var(--accent2),#0ea5e9);-webkit-background-clip:text;-webkit-text-fill-color:transparent">valor real</em></h2>
+  <p class="section-desc">Três frentes com aplicação imediata na Interweg.</p>
+
+  <div class="usecases">
+
+    <div class="usecase">
+      <div class="usecase-header">
+        <div class="usecase-number">01 · Treinamento Interno</div>
+        <h3>Onboarding e processos sem depender de agenda</h3>
+        <p class="usecase-sub">O Alexandre explica uma vez. O avatar replica para sempre com a mesma clareza e sempre disponível.</p>
+      </div>
+      <div class="usecase-benefits">
+        <div class="benefit">
+          <div class="benefit-dot dot-purple"></div>
+          <p><strong>Onboarding de novos colaboradores</strong> com vídeos de boas-vindas, apresentação da empresa e cultura</p>
+        </div>
+        <div class="benefit">
+          <div class="benefit-dot dot-purple"></div>
+          <p><strong>Treinamento de processos</strong> com explicações padronizadas de fluxos internos, sistemas e compliance</p>
+        </div>
+        <div class="benefit">
+          <div class="benefit-dot dot-purple"></div>
+          <p><strong>Todo mundo recebe exatamente a mesma explicação</strong> sem variação de comunicação entre gestores</p>
+        </div>
+      </div>
+      <div class="highlight-box">
+        <strong>Vantagem principal</strong>
+        Não depende de agenda de pessoas reais. O conteúdo fica pronto uma vez e roda indefinidamente.
+      </div>
+    </div>
+
+    <div class="usecase">
+      <div class="usecase-header">
+        <div class="usecase-number">02 · Atendimento e Vendas</div>
+        <h3>Atendimento automatizado com cara humana</h3>
+        <p class="usecase-sub">Em vez de texto frio, o cliente vê alguém explicando o produto com empatia e clareza.</p>
+      </div>
+      <div class="usecase-benefits">
+        <div class="benefit">
+          <div class="benefit-dot dot-green"></div>
+          <p><strong>Atendimento automatizado mais humano</strong> que aumenta confiança e taxa de conversão</p>
+        </div>
+        <div class="benefit">
+          <div class="benefit-dot dot-green"></div>
+          <p><strong>Explicação de produtos complexos</strong> onde o avatar demonstra, detalha e responde com naturalidade</p>
+        </div>
+        <div class="benefit">
+          <div class="benefit-dot dot-green"></div>
+          <p><strong>Expansão internacional sem regravar</strong> com a mesma explicação em português, inglês e espanhol com sincronia de boca perfeita</p>
+        </div>
+      </div>
+      <div>
+        <div class="lang-flags">
+          <div class="lang-pill"><span class="lang-flag">🇧🇷</span> Português</div>
+          <div class="lang-pill"><span class="lang-flag">🇺🇸</span> Inglês</div>
+          <div class="lang-pill"><span class="lang-flag">🇪🇸</span> Espanhol</div>
+        </div>
+        <p class="text-muted mt-8" style="font-size:.84rem">Mesma pessoa, mesmo rosto, idioma diferente. Sem precisar regravar nada.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="winner-banner" style="margin-top:28px;background:linear-gradient(135deg,rgba(0,212,170,.1),rgba(14,165,233,.07));border-color:rgba(0,212,170,.25)">
+    <div class="winner-icon" style="color:var(--accent2)">+</div>
+    <div class="winner-text">
+      <h3>Potencial internacional enorme</h3>
+      <p>Empresas que querem crescer globalmente não precisam mais contratar dubladores nem regravar conteúdo. O avatar fala qualquer idioma com sincronia perfeita tornando a expansão muito mais rápida e barata.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- MARCA PESSOAL -->
+<section id="marca" class="fade-up">
+  <div class="section-label">Marca Pessoal</div>
+  <h2>Autoridade digital<br>sem depender de energia social</h2>
+  <p class="section-desc">Profissionais e líderes estão usando avatares para construir presença constante mesmo nos dias em que não têm disposição para aparecer.</p>
+
+  <div class="brand-grid">
+    <div class="brand-card">
+      <div class="brand-card-icon">01</div>
+      <h4>Autoridade consistente</h4>
+      <p>Poste conteúdo relevante todo dia sem depender de energia ou câmera</p>
+    </div>
+    <div class="brand-card">
+      <div class="brand-card-icon">02</div>
+      <h4>Presença sem agenda</h4>
+      <p>Crie vídeos para LinkedIn, Instagram e YouTube de forma assíncrona</p>
+    </div>
+    <div class="brand-card">
+      <div class="brand-card-icon">03</div>
+      <h4>Mesmo padrão sempre</h4>
+      <p>Aparência, tom de voz e postura idênticos em todos os conteúdos</p>
+    </div>
+    <div class="brand-card">
+      <div class="brand-card-icon">04</div>
+      <h4>Escala real</h4>
+      <p>Um vídeo gravado uma vez pode virar 10 versões em idiomas diferentes</p>
+    </div>
+  </div>
+
+  <div class="highlight-box" style="margin-top:28px">
+    <strong>Pense nisso assim</strong>
+    O avatar é uma versão do Alexandre que nunca cansa, nunca está sem agenda e está sempre pronto para explicar, vender ou treinar com a mesma qualidade que ele mesmo transmitiria ao vivo.
+  </div>
+</section>
+
+<footer>
+  Apresentação preparada pela Valeria · Interweg · 2025
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
