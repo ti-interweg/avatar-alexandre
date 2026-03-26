@@ -622,33 +622,31 @@
         <h3>Atendimento automatizado com cara humana</h3>
         <p class="usecase-sub">Em vez de texto frio, o cliente vê alguém explicando o produto com empatia e clareza.</p>
       </div>
-      <div style="display:flex;gap:32px;align-items:flex-start;flex-wrap:wrap;">
-        <div class="usecase-benefits" style="flex:1;min-width:220px;">
-          <div class="benefit">
-            <div class="benefit-dot dot-green"></div>
-            <p><strong>Atendimento automatizado mais humano</strong> que pode aumentar confiança e taxa de conversão</p>
-          </div>
-          <div class="benefit">
-            <div class="benefit-dot dot-green"></div>
-            <p><strong>Explicação de produtos complexos</strong> onde o avatar pode demonstrar, detalhar e responder</p>
-          </div>
-          <div class="benefit">
-            <div class="benefit-dot dot-green"></div>
-            <p><strong>Expansão internacional sem regravar</strong> com a mesma explicação em português, inglês e espanhol</p>
-          </div>
-          <div style="margin-top:16px;">
-            <p class="text-muted" style="font-size:.84rem;">Mesma pessoa, mesmo rosto, idioma diferente. Sem precisar regravar.</p>
-          </div>
+      <div class="usecase-benefits">
+        <div class="benefit">
+          <div class="benefit-dot dot-green"></div>
+          <p><strong>Atendimento automatizado mais humano</strong> que pode aumentar confiança e taxa de conversão</p>
         </div>
-        <div style="flex-shrink:0;width:260px;max-width:100%;">
-          <div style="display:flex;gap:8px;margin-bottom:10px;">
-            <button onclick="switchLangVideo('pt')" id="btn-pt" style="flex:1;padding:8px 0;border-radius:8px;border:2px solid var(--accent2);background:var(--accent2);color:#fff;font-weight:700;font-size:.85rem;cursor:pointer;transition:all .2s;">Português</button>
-            <button onclick="switchLangVideo('en')" id="btn-en" style="flex:1;padding:8px 0;border-radius:8px;border:2px solid var(--accent2);background:transparent;color:var(--accent2);font-weight:700;font-size:.85rem;cursor:pointer;transition:all .2s;">Inglês</button>
-          </div>
-          <video id="lang-video" controls preload="metadata" style="width:100%;border-radius:12px;display:block;">
-            <source id="lang-video-src" src="Beneficios_portugues_c.mp4" type="video/mp4">
-          </video>
+        <div class="benefit">
+          <div class="benefit-dot dot-green"></div>
+          <p><strong>Explicação de produtos complexos</strong> onde o avatar pode demonstrar, detalhar e responder</p>
         </div>
+        <div class="benefit">
+          <div class="benefit-dot dot-green"></div>
+          <p><strong>Expansão internacional sem regravar</strong> com a mesma explicação em português, inglês e espanhol</p>
+        </div>
+        <div style="margin-top:16px;">
+          <p class="text-muted" style="font-size:.84rem;">Mesma pessoa, mesmo rosto, idioma diferente. Sem precisar regravar.</p>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="display:flex;gap:8px;">
+          <button onclick="switchLangVideo('pt')" id="btn-pt" style="flex:1;padding:8px 0;border-radius:8px;border:2px solid var(--accent2);background:var(--accent2);color:#fff;font-weight:700;font-size:.85rem;cursor:pointer;transition:all .2s;">Português</button>
+          <button onclick="switchLangVideo('en')" id="btn-en" style="flex:1;padding:8px 0;border-radius:8px;border:2px solid var(--accent2);background:transparent;color:var(--accent2);font-weight:700;font-size:.85rem;cursor:pointer;transition:all .2s;">Inglês</button>
+        </div>
+        <video id="lang-video" controls preload="metadata" style="width:100%;border-radius:12px;display:block;">
+          <source id="lang-video-src" src="Beneficios_portugues_c.mp4" type="video/mp4">
+        </video>
       </div>
       <script>
         function switchLangVideo(lang) {
